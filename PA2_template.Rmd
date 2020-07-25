@@ -34,6 +34,12 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 2. Full dataset was imported, then subset for plot
 3. Plotting systems used per assignment instructions 
 
+### Questions
+
+1. Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
+
+2. Across the United States, which types of events have the greatest economic consequences?
+
 ## Loading and preprocessing the data
 
 ### Part 1: Import data per assignment instructions
