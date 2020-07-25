@@ -1,0 +1,384 @@
+---
+title: "Reproducible Research: Peer Assessment 2"
+output: 
+  html_document:
+    keep_md: true
+---
+
+## Assignment Info
+* Filename: PA2_template.Rmd
+* Name: Walter Yu
+* Date: July 2020
+
+## Submission Notes
+
+1. This markdown file is an analysis and visualization of the NOAA weather dataset. Source data available [here][1].
+
+[1]: https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2
+
+2. The document for this assignment was generated with [R Studio Cloud][2] due to package installation errors on my local machine; as a result, file was run and report rendered there instead.
+
+[2]: https://rstudio.cloud
+
+This markdown project template is based on a fork of the course assignment Github repo available [here][3].
+
+[3]: https://github.com/rdpeng/RepData_PeerAssessment1
+
+This assignment is completed for the JHU Coursera Data Science Program, which is a 10-course certification. More info about this program is available [here][4].
+
+[4]: https://www.coursera.org/specializations/jhu-data-science
+
+### Notes
+
+1. All code included to show data import and plot
+2. Full dataset was imported, then subset for plot
+3. Plotting systems used per assignment instructions 
+
+## Loading and preprocessing the data
+
+### Part 1: Import data per assignment instructions
+
+Processing Steps:
+1. Loaded data with read.csv function per instructions
+2. File was unzipped, then read into program
+
+Analysis:
+1. Used Head, names and summary functions to review the data
+2. Data has null values (2308 rows) and median steps of zero
+
+### Part 2: Remove null values
+
+Processing Steps:
+1. Used na.omit function to remove null values
+2. Assigned results to a new variable
+
+Analysis:
+1. Used head, names and summary functions to review the data
+
+```{r echo=TRUE}
+
+# part 1: import data per assignment instructions
+# source: assignment instructions
+activity <- read.csv("activity.csv")
+
+# review dataset
+# https://www.statmethods.net/stats/descriptives.html
+head(activity)
+names(activity)
+summary(activity)
+
+# part 2: remove null values
+# source: https://www.statmethods.net/input/missingdata.html
+activity_omit <- na.omit(activity)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(activity_omit)
+names(activity_omit)
+summary(activity_omit)
+
+```
+
+## What is mean total number of steps taken per day?
+
+### Part 1: Calculate sum, then create histogram 
+
+Processing Steps:
+* Used aggreage function to calculate total steps/day
+* Assigned results to a new variable
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that aggregate returned total steps per day
+
+Plot:
+* Created histogram for steps/day; axis adjusted to fit data
+* Applied bins to visualize the data effectively
+
+### Part 2: Calculate mean/median by date
+
+Processing Steps:
+* Used aggreage function to calculate mean/median steps/day
+* Assigned results to a new variable
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that aggregate returned mean/median steps per day
+* Median steps/day = 0 due to large number of zero step values
+
+```{r echo=TRUE}
+
+# part 1: calculate sum, then create histogram 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_sum <- aggregate(steps ~ date, activity_omit, sum)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_sum)
+names(steps_sum)
+summary(steps_sum)
+
+# create histogram plot; adjust axis and bins
+# source: https://www.statmethods.net/graphs/density.html
+hist(steps_sum$steps, col="green", 
+     breaks=10, main="Total Steps per Day",
+     xlab="Steps per Day", ylim=c(0,20), xlim=c(0,25000))
+
+# part 2: calculate mean/median by date
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_mean <- aggregate(steps ~ date, activity_omit, mean)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_mean)
+names(steps_mean)
+summary(steps_mean)
+
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_median <- aggregate(steps ~ date, activity_omit, median)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_median)
+names(steps_median)
+summary(steps_median)
+
+```
+
+## What is the average daily activity pattern?
+
+### Part 1: Group by interval, calculate mean and plot time series
+
+Processing Steps:
+* Used dplyr/group_by to calculate mean steps/interval
+* Assigned results to a new variable
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that mean of steps/interval differ from steps/day
+
+Plot:
+* Created time series plot; add axis labels and line color
+
+Notes:
+* Assumed instructions were for steps/interval across ALL DAYS
+* So, mean was calculated per interval for entire data set
+* NOT group by interval, then calculate mean by date
+
+### Part 2: Find interval with maximum steps across all days
+
+Processing Steps:
+* Used which function to subset for maximum steps/interval
+* Assigned results to a new variable
+
+Analysis:
+* Interval 835 had the maximum steps/interval.
+
+```{r echo=TRUE}
+
+# part 1: group by interval, calculate mean and plot time series
+# group by interval, then calculate mean steps for each group 
+# source: https://datacarpentry.org/R-genomics/04-dplyr.html
+install.packages("dplyr")
+library(dplyr)
+steps_avg_interval <- activity_omit %>%
+    group_by(interval) %>%
+    summarize(steps_avg = mean(steps))
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_avg_interval)
+names(steps_avg_interval)
+summary(steps_avg_interval)
+
+# create time series plot; use date list and sum of steps
+# source: https://www.datamentor.io/r-programming/plot-function/
+plot(steps_avg_interval,
+     main="Average Steps per Interval",
+     xlab="Interval",
+     ylab="Average Steps",
+     col="blue",
+     type="l")
+
+# part 2: find interval with maximum steps across all days
+# source: https://stackoverflow.com/questions/19449615/how-to-extract-the-row-with-min-or-max-values
+max_interval <- steps_avg_interval[which.max(steps_avg_interval$steps_avg),]
+
+# return row with max interval
+print("Subset for maximum interval and return result.")
+max_interval
+
+```
+
+## Imputing missing values
+
+### Part 1: Return count of rows with null values
+
+Processing Steps:
+* Used is.na function to subset for records with null 
+* Assigned results to a new variable
+
+Analysis:
+* Verified that row count (2308) was same as raw data/summary
+
+### Part 2-3: Create new dataset with imputed null values 
+
+Processing Steps:
+* Used simputation/impute_lm to impute null values
+* Replaced null values with linear model per interval
+* Assigned dataset to new variable
+
+Analysis:
+* Imputation did not change mean/median 
+* Change did not occur since linear model filled matching values
+* However, total steps increased since filled values add to total
+
+Notes:
+* Numerous attempts were made with dplyr/group_by which failed
+* Code left to document previous attempts
+* As a result, simputation package was used to yield result
+
+### Part 4: calculate sum, then create histogram 
+
+Processing Steps:
+* Used aggreage function to calculate total steps/day
+* Assigned results to a new variable
+
+Plot:
+* Created histogram; add axis labels and line color
+* Total steps increased since filled values add to total
+
+Analysis:
+* Imputation did not change mean/median 
+* Change did not occur since linear model filled matching values
+* However, total steps increased since filled values add to total
+
+```{r echo=TRUE}
+
+# part 1: return count of rows with null values
+# https://stackoverflow.com/questions/7980622/subset-of-rows-containing-na-missing-values-in-a-chosen-column-of-a-data-frame
+activity_na <- activity[is.na(activity),]
+
+# return number of records with null values
+print("Subset for records with null values and return count.")
+nrow(activity_na)
+
+# source: https://cran.r-project.org/web/packages/simputation/vignettes/intro.html
+install.packages('simputation')
+library(simputation)
+activity_imp <- impute_lm(activity, steps ~ interval)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+nrow(activity_imp)
+head(activity_imp)
+names(activity_imp)
+
+# compare raw and imputed data
+# https://www.statmethods.net/stats/descriptives.html
+summary(activity)
+summary(activity_imp)
+
+# part 4: calculate sum, then create histogram 
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_sum_imp <- aggregate(steps ~ date, activity_imp, sum)
+summary(steps_sum_imp)
+
+# create histogram plot
+# source: https://www.statmethods.net/graphs/density.html
+hist(steps_sum_imp$steps, col="green", 
+     breaks=10, main="Total Steps per Day (Imputed Values)",
+     xlab="Steps per Day", ylim=c(0,30), xlim=c(0,25000))
+
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_mean_imp <- aggregate(steps ~ date, activity_imp, mean)
+summary(steps_mean)
+summary(steps_mean_imp)
+
+# aggregate by date, then apply calculations
+# source: https://www.statmethods.net/management/aggregate.html
+steps_median_imp <- aggregate(steps ~ date, activity_imp, median)
+summary(steps_median)
+summary(steps_median_imp)
+
+```
+
+## Are there differences in activity patterns between weekdays and weekends?
+
+### Part 1: Create weekday/weekend factor within dataset
+
+Processing Steps:
+* Created weekday/weekend factor with ifelse logic
+* Used weekdays function to create weekday/weekend values
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that factors were created successfully
+
+### Part 2: Create time series facet plot
+
+Processing Steps:
+* Used dplyr to group by date, then calculate mean 
+
+Analysis:
+* Used head, names and summary functions to review the data
+* Verified that mean was calculated by date
+
+Plot:
+* Created time series facet plot; add line color
+
+Notes:
+* Assumed instructions were for steps/interval across ALL DAYS
+* So, mean was calculated per interval for entire data set
+* NOT group by interval, then calculate mean by date
+
+```{r echo=TRUE}
+
+# part 1: create weekday/weekend factor within dataset
+
+# first, create weekday/weekend categorical variable
+# source: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R-Manual/R-Manual4.html
+activity_imp$wday_type <- ifelse(
+    weekdays(as.Date(activity_imp$date)) == "Saturday" |
+    weekdays(as.Date(activity_imp$date)) == "Sunday",
+    "Weekend",
+    "Weekday"
+)
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+nrow(activity_imp)
+head(activity_imp)
+names(activity_imp)
+summary(activity_imp)
+unique(activity_imp$wday_type)
+
+# group by interval, then calculate mean steps for each group 
+# source: https://datacarpentry.org/R-genomics/04-dplyr.html
+# install.packages("dplyr")
+# library(dplyr)
+steps_avg_wday <- activity_imp %>%
+    group_by(steps, interval, wday_type) %>%
+    summarize(steps_avg = mean(steps))
+
+# verify results
+# https://www.statmethods.net/stats/descriptives.html
+head(steps_avg_wday)
+names(steps_avg_wday)
+summary(steps_avg_wday)
+
+# part 2: create time series facet plot
+# source: http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/
+install.packages("ggplot2")
+library(ggplot2)
+ggplot(data=steps_avg_wday, aes(interval, steps_avg)) +
+    geom_line(color="blue") +
+    geom_point(color="blue") + 
+    facet_wrap(~ wday_type)
+
+```
