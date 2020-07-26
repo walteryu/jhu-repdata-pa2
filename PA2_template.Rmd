@@ -66,14 +66,14 @@ Analysis:
 # part 1A: import data per assignment instructions
 
 # source: https://rpubs.com/otienodominic/398952
-url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
-temp <- tempfile()
-download.file(url, temp)
-data <- read.csv(bzfile("repdata_data_StormData.csv.bz2"))
-unlink(zipfile)
+# url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
+# temp <- tempfile()
+# download.file(url, temp, mode="wb")
+# data <- read.csv("repdata_data_StormData.csv.bz2", header=TRUE, sep=",")
+# unlink(zipfile)
 
 # source: assignment instructions
-# data <- read.csv("data/repdata_data_StormData.csv.bz2")
+data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
 # review dataset
 # https://www.statmethods.net/stats/descriptives.html
