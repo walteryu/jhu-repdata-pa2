@@ -63,25 +63,33 @@ Analysis:
 
 ```{r echo=TRUE}
 
-# part 1: import data per assignment instructions
+# part 1A: import data per assignment instructions
+
+# source: https://rpubs.com/otienodominic/398952
+url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
+temp <- tempfile()
+download.file(url, temp)
+data <- read.csv(bzfile("repdata_data_StormData.csv.bz2"))
+unlink(zipfile)
+
 # source: assignment instructions
-activity <- read.csv("activity.csv")
+# data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
 # review dataset
 # https://www.statmethods.net/stats/descriptives.html
-head(activity)
-names(activity)
-summary(activity)
+head(data)
+names(data)
+summary(data)
 
 # part 2: remove null values
 # source: https://www.statmethods.net/input/missingdata.html
-activity_omit <- na.omit(activity)
+# activity_omit <- na.omit(activity)
 
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
-head(activity_omit)
-names(activity_omit)
-summary(activity_omit)
+# head(activity_omit)
+# names(activity_omit)
+# summary(activity_omit)
 
 ```
 
