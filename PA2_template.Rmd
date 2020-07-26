@@ -49,23 +49,25 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 ### Part 1A: Data Import
 
 Steps:
-1. Loaded data with read.csv function per instructions
-2. File was unzipped, then read into program
+1. Initially attempted to load data from url
+2. However, attempts resulted in error so loaded from bz2 zipfile instead
+3. From there, file was unzipped and read into program
+4. Data import step is saved as its own chunk and [cached][1a_cache]
+
+[1a_cache]: https://bookdown.org/yihui/rmarkdown-cookbook/cache.html
 
 ### Part 1B: Data Clean
 
-Processing Steps:
+Steps:
 1. Used na.omit function to remove null values
-2. Assigned results to a new variable
+2. However, na.omit removed most values do not used on dataset
 
-Analysis:
-1. Used head, names and summary functions to review the data
+```{r echo=TRUE, cache=TRUE}
 
-```{r echo=TRUE}
-
-# part 1A: import data per assignment instructions
+# part 1a: data import
 
 # source: https://rpubs.com/otienodominic/398952
+# note: unsuccessful after several attempts, so revert to reading from bz2 file
 # url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
 # temp <- tempfile()
 # download.file(url, temp, mode="wb")
@@ -73,23 +75,40 @@ Analysis:
 # unlink(zipfile)
 
 # source: assignment instructions
-data <- read.csv("data/repdata_data_StormData.csv.bz2")
+# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
+# data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
 # review dataset
 # https://www.statmethods.net/stats/descriptives.html
-head(data)
+# head(data)
 names(data)
 summary(data)
 
 # part 2: remove null values
 # source: https://www.statmethods.net/input/missingdata.html
-# activity_omit <- na.omit(activity)
+# note: na.omit removes most records, so not used on dataset
+# data_omit <- na.omit(data)
 
 # verify results
 # https://www.statmethods.net/stats/descriptives.html
-# head(activity_omit)
-# names(activity_omit)
-# summary(activity_omit)
+# head(data_omit)
+# names(data_omit)
+# summary(data_omit)
+
+```
+
+```{r echo=TRUE, cache=TRUE}
+
+# part 1b: remove null values
+# source: https://www.statmethods.net/input/missingdata.html
+# data_omit <- na.omit(data)
+
+# verify results
+# note: na.omit removes most records, so not used on dataset
+# https://www.statmethods.net/stats/descriptives.html
+# head(data_omit)
+# names(data_omit)
+# summary(data_omit)
 
 ```
 
