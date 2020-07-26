@@ -1,5 +1,6 @@
 data/
 archive/
+modules/
 check_repo.sh
 instructions.md
 PA2_template.md
