@@ -5,10 +5,20 @@ output:
     keep_md: true
 ---
 
-## Assignment Info
-* Filename: PA2_template.Rmd
-* Name: Walter Yu
-* Date: July 2020
+# Title: JHU-DSCI Reproducible Research
+## Peer Assessment 2 - NOAA Storm Data
+
+### Name: Walter Yu
+### Date: July 2020
+
+## Synopsis
+
+This document completes an initial analysis of the NOAA Storm Data set as follows:  
+1. Download and read the raw NOAA storm dataset 
+2. Review and clean data before analysis 
+3. Analyze data to answer assignment questions 
+4. Plot data to communicate results 
+5. Document steps and findings to be reproducible
 
 ## Submission Notes
 
@@ -28,31 +38,21 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 
 [4]: https://www.coursera.org/specializations/jhu-data-science
 
-### Notes
-
-1. All code included to show data import and plot
-2. Full dataset was imported, then subset for plot
-3. Plotting systems used per assignment instructions 
-
-### Questions
+## Questions
 
 1. Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
 
 2. Across the United States, which types of events have the greatest economic consequences?
 
-## Loading and preprocessing the data
+## Part 1: Data Processing
 
-### Part 1: Import data per assignment instructions
+### Part 1A: Data Import
 
-Processing Steps:
+Steps:
 1. Loaded data with read.csv function per instructions
 2. File was unzipped, then read into program
 
-Analysis:
-1. Used Head, names and summary functions to review the data
-2. Data has null values (2308 rows) and median steps of zero
-
-### Part 2: Remove null values
+### Part 1B: Data Clean
 
 Processing Steps:
 1. Used na.omit function to remove null values
