@@ -78,39 +78,43 @@ Steps:
 # https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
 # data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
-# review dataset
-# https://www.statmethods.net/stats/descriptives.html
-# head(data)
-names(data)
-summary(data)
+```
 
-# part 2: remove null values
-# source: https://www.statmethods.net/input/missingdata.html
-# note: na.omit removes most records, so not used on dataset
-# data_omit <- na.omit(data)
+```{r echo=TRUE, cache=TRUE}
 
-# verify results
-# https://www.statmethods.net/stats/descriptives.html
-# head(data_omit)
-# names(data_omit)
-# summary(data_omit)
 
 ```
 
 ```{r echo=TRUE, cache=TRUE}
 
-# part 1b: remove null values
+# part 1b: data processing
+# note: course discussion forum consulted for these steps:
+# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
+
+# review dataset
+# conclusion: dataset contains many columns, only some of which seem to be useful
+# https://www.statmethods.net/stats/descriptives.html
+# head(data)
+names(data)
+summary(data)
+
+# attempt remove null values
 # source: https://www.statmethods.net/input/missingdata.html
 # data_omit <- na.omit(data)
 
 # verify results
-# note: na.omit removes most records, so not used on dataset
+# conclusion: na.omit removes most records, so not used on dataset
 # https://www.statmethods.net/stats/descriptives.html
 # head(data_omit)
 # names(data_omit)
 # summary(data_omit)
 
+# identify event types
+unique(data$EVTYPE)
+
 ```
+
+
 
 ## What is mean total number of steps taken per day?
 
