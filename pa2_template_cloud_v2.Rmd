@@ -216,3 +216,16 @@ p_injury <- ggplot(data=event_injury_6, aes(x=reorder(EVTYPE, -INJURIES), y=INJU
 p_injury + coord_flip()
 
 ```
+
+```{r echo=TRUE}
+
+# part 1b: data processing - analyze event types by economic impact
+# note: analyze property damage per course discussion post 
+# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
+names(data)
+summary(data$PROPDMG)
+summary(data$PROPDMGEXP)
+summary(data$CROPDMG)
+summary(data$CROPDMGEXP)
+
+```
