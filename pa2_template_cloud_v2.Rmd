@@ -252,6 +252,19 @@ summary(data$CROPDMGEXP)
 
 ```
 
+### Part 2D: Data Analysis
+### Question 2 - Analyze Event Type by Impacts to Crop Damage
+
+Steps:
+
+Analysis:
+
+1. There are 37 variables, only some of which are needed for analysis
+2. NOAA documentation quantifies health impacts with fatailities/injuries 
+3. So, aggregate fatailities/injuries by event type
+
+
+
 ```{r echo=TRUE}
 
 # part 1b: data processing - analyze event types by property damage exp.
