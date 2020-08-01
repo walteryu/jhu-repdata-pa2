@@ -278,122 +278,201 @@ Analysis:
 # https://en.wikipedia.org/wiki/Exponentiation#Powers_of_ten
 
 # note: please refer to cited code sources above
-prop_0e_subset <- subset(data, PROPDMGEXP == 1, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_0e_subset <- subset(data, PROPDMGEXP == 1, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_0e_subset
 prop_0e_subset$PROPDMGTOT <- with(prop_0e_subset, ifelse(PROPDMGEXP == 1, PROPDMG*0, "NA"))
 prop_0e_subset
 
 # note: please refer to cited code sources above
-prop_1e_subset <- subset(data, PROPDMGEXP == 0, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_1e_subset <- subset(data, PROPDMGEXP == 0, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_1e_subset
 prop_1e_subset$PROPDMGTOT <- with(prop_1e_subset, ifelse(PROPDMGEXP == 0, PROPDMG*10, "NA"))
 prop_1e_subset
 
 # note: please refer to cited code sources above
-prop_2e_subset <- subset(data, PROPDMGEXP == 2, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_2e_subset <- subset(data, PROPDMGEXP == 2, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_2e_subset
 prop_2e_subset$PROPDMGTOT <- with(prop_2e_subset, ifelse(PROPDMGEXP == 2, PROPDMG*10^2, "NA"))
 prop_2e_subset
 
 # note: please refer to cited code sources above
-prop_3e_subset <- subset(data, PROPDMGEXP == 3 | PROPDMGEXP == "K", select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_3e_subset <- subset(data, PROPDMGEXP == 3 | PROPDMGEXP == "K", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_3e_subset
 prop_3e_subset$PROPDMGTOT <- with(prop_3e_subset, ifelse(PROPDMGEXP == 3 | PROPDMGEXP == "K", PROPDMG*10^3, "NA"))
 prop_3e_subset
 
 # note: please refer to cited code sources above
-prop_4e_subset <- subset(data, PROPDMGEXP == 4, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_4e_subset <- subset(data, PROPDMGEXP == 4, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_4e_subset
 prop_4e_subset$PROPDMGTOT <- with(prop_4e_subset, ifelse(PROPDMGEXP == 4, PROPDMG*10^4, "NA"))
 prop_4e_subset
 
 # note: please refer to cited code sources above
-prop_5e_subset <- subset(data, PROPDMGEXP == 5, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_5e_subset <- subset(data, PROPDMGEXP == 5, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_5e_subset
 prop_5e_subset$PROPDMGTOT <- with(prop_5e_subset, ifelse(PROPDMGEXP == 5, PROPDMG*10^5, "NA"))
 prop_5e_subset
 
 # note: please refer to cited code sources above
-prop_6e_subset <- subset(data, PROPDMGEXP == 6 | PROPDMGEXP == "M", select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_6e_subset <- subset(data, PROPDMGEXP == 6 | PROPDMGEXP == "M", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_6e_subset
 prop_6e_subset$PROPDMGTOT <- with(prop_6e_subset, ifelse(PROPDMGEXP == 6 | PROPDMGEXP == "M", PROPDMG*10^6, "NA"))
 prop_6e_subset
 
 # note: please refer to cited code sources above
-prop_7e_subset <- subset(data, PROPDMGEXP == 7, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_7e_subset <- subset(data, PROPDMGEXP == 7, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_7e_subset
 prop_7e_subset$PROPDMGTOT <- with(prop_7e_subset, ifelse(PROPDMGEXP == 7, PROPDMG*10^7, "NA"))
 prop_7e_subset
 
 # note: please refer to cited code sources above
-prop_8e_subset <- subset(data, PROPDMGEXP == 8, select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_8e_subset <- subset(data, PROPDMGEXP == 8, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_8e_subset
 prop_8e_subset$PROPDMGTOT <- with(prop_8e_subset, ifelse(PROPDMGEXP == 8, PROPDMG*10^8, "NA"))
 prop_8e_subset
 
 # note: please refer to cited code sources above
-prop_9e_subset <- subset(data, PROPDMGEXP == "B", select = c(EVTYPE, PROPDMG, PROPDMGEXP, PROPDMGTOT))
+prop_9e_subset <- subset(data, PROPDMGEXP == "B", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
 prop_9e_subset
 prop_9e_subset$PROPDMGTOT <- with(prop_9e_subset, ifelse(PROPDMGEXP == "B", PROPDMG*10^9, "NA"))
 prop_9e_subset
 
-propdmgtot_subset <- rbind(prop_0e_subset, prop_1e_subset)
+propdmgtot_subset <- rbind(prop_0e_subset, prop_1e_subset, prop_2e_subset, prop_3e_subset, prop_4e_subset, prop_5e_subset, prop_6e_subset, prop_7e_subset, prop_8e_subset, prop_9e_subset)
 propdmgtot_subset
 
 # aggregate by cropdmg or propdmg, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
-event_propdmg_total <- aggregate(PROPDMGEXP ~ EVTYPE, data, FUN=length)
+# event_propdmg_total <- aggregate(PROPDMGTOT ~ EVTYPE, propdmgtot_subset, FUN=length)
+event_propdmg_total <- aggregate(PROPDMGTOT ~ EVTYPE, propdmgtot_subset, sum)
 
 # rank aggregate results:
 # https://stackoverflow.com/questions/23659241/rank-in-the-aggregate-function
-event_propdmg_total <- event_propdmg_total[order(event_propdmg_total$PROPDMGEXP, decreasing=TRUE),]
+event_propdmg_total <- event_propdmg_total[order(event_propdmg_total$PROPDMGTOT, decreasing=TRUE),]
 
 # subset for top 50 event types with highest count
 # https://stackoverflow.com/questions/2667673/select-first-4-rows-of-a-data-frame-in-r/47400307
-event_propdmg_50 <- event_propdmg_total[1:50,]
-# event_propdmg_50
-
-# ratio of propdmgities due to top 50 event types / all event types
-event_propdmg_50_sum <- sum(event_propdmg_50$PROPDMGEXP)
-event_propdmg_total_sum <- sum(event_propdmg_total$PROPDMGEXP)
-event_propdmg_ratio <- event_propdmg_50_sum / event_propdmg_total_sum
-print("ratio of property damage exp. from top 50 / all event types:")
-print(event_propdmg_ratio)
-
-# note: based on results above, storm-related and heat have highest totals 
-# conclusion: calculate ratios for these events to create plots
 event_propdmg_10 <- event_propdmg_total[1:10,]
 event_propdmg_10
 
+# ratio of propdmgities due to top 10 event types / all event types
+event_propdmg_10_sum <- sum(event_propdmg_10$PROPDMGTOT, na.rm=TRUE)
+event_propdmg_total_sum <- sum(event_propdmg_total$PROPDMGTOT, na.rm=TRUE)
+event_propdmg_ratio <- event_propdmg_10_sum / event_propdmg_total_sum
+print("ratio of property damage from top 10 / all event types:")
+print(event_propdmg_ratio)
+
 ```
+
+### Part 2E: Data Analysis
+### Question 2 - Analyze Event Type by Impacts to Crop Damage
+
+Steps:
+
+Analysis:
+
+1. There are 37 variables, only some of which are needed for analysis
+2. NOAA documentation quantifies health impacts with fatailities/injuries 
+3. So, aggregate fatailities/injuries by event type
+
 
 ```{r echo=TRUE}
 
 # part 1b: data processing - analyze event types by crop damage
 
-# aggregate by propdmg or cropdmg, then apply calculations
+# *** note: sources for code below ***
+# subset and verify results:
+# https://stats.idre.ucla.edu/r/faq/frequently-asked-questions-about-rhow-can-i-subset-a-data-setthe-r-program-as-a-text-file-for-all-the-code-on-this-page-subsetting-is-a-very-important-component/
+# subset and verify results:
+# https://stats.idre.ucla.edu/r/faq/frequently-asked-questions-about-rhow-can-i-subset-a-data-setthe-r-program-as-a-text-file-for-all-the-code-on-this-page-subsetting-is-a-very-important-component/
+# convert powers of 10:
+# https://en.wikipedia.org/wiki/Exponentiation#Powers_of_ten
+
+# note: please refer to cited code sources above
+crop_1e_subset <- subset(data, CROPDMGEXP == 0, select = c(EVTYPE, CROPDMG, CROPDMGEXP))
+crop_1e_subset
+crop_1e_subset$CROPDMGTOT <- with(crop_1e_subset, ifelse(CROPDMGEXP == 0, CROPDMG*10, "NA"))
+crop_1e_subset
+
+# note: please refer to cited code sources above
+crop_2e_subset <- subset(data, CROPDMGEXP == 2, select = c(EVTYPE, CROPDMG, CROPDMGEXP))
+crop_2e_subset
+crop_2e_subset$CROPDMGTOT <- with(crop_2e_subset, ifelse(CROPDMGEXP == 2, CROPDMG*10^2, "NA"))
+crop_2e_subset
+
+# note: please refer to cited code sources above
+crop_3e_subset <- subset(data, CROPDMGEXP == "k" | CROPDMGEXP == "K", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
+crop_3e_subset
+crop_3e_subset$CROPDMGTOT <- with(crop_3e_subset, ifelse(CROPDMGEXP == "k" | CROPDMGEXP == "K", CROPDMG*10^3, "NA"))
+crop_3e_subset
+
+# note: please refer to cited code sources above
+crop_6e_subset <- subset(data, CROPDMGEXP == "m" | CROPDMGEXP == "M", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
+crop_6e_subset
+crop_6e_subset$CROPDMGTOT <- with(crop_6e_subset, ifelse(CROPDMGEXP == "m" | CROPDMGEXP == "M", CROPDMG*10^6, "NA"))
+crop_6e_subset
+
+# note: please refer to cited code sources above
+crop_9e_subset <- subset(data, CROPDMGEXP == "B", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
+crop_9e_subset
+crop_9e_subset$CROPDMGTOT <- with(crop_9e_subset, ifelse(CROPDMGEXP == "B", CROPDMG*10^9, "NA"))
+crop_9e_subset
+
+cropdmgtot_subset <- rbind(crop_1e_subset, crop_2e_subset, crop_3e_subset, crop_6e_subset, crop_9e_subset)
+cropdmgtot_subset
+
+# aggregate by cropdmg or cropdmg, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
-event_cropdmg_total <- aggregate(INJURIES ~ EVTYPE, data, sum)
+# event_cropdmg_total <- aggregate(CROPDMGTOT ~ EVTYPE, cropdmgtot_subset, FUN=length)
+event_cropdmg_total <- aggregate(CROPDMGTOT ~ EVTYPE, cropdmgtot_subset, sum)
 
 # rank aggregate results:
 # https://stackoverflow.com/questions/23659241/rank-in-the-aggregate-function
-event_cropdmg_total <- event_cropdmg_total[order(event_cropdmg_total$INJURIES, decreasing=TRUE),]
+event_cropdmg_total <- event_cropdmg_total[order(event_cropdmg_total$CROPDMGTOT, decreasing=TRUE),]
 
 # subset for top 50 event types with highest count
 # https://stackoverflow.com/questions/2667673/select-first-4-rows-of-a-data-frame-in-r/47400307
-event_cropdmg_50 <- event_cropdmg_total[1:50,]
-# event_cropdmg_50
+event_cropdmg_10 <- event_cropdmg_total[1:10,]
+event_cropdmg_10
 
-# ratio of cropdmgities due to top 50 event types / all event types
-event_cropdmg_50_sum <- sum(event_cropdmg_50$INJURIES)
-event_cropdmg_total_sum <- sum(event_cropdmg_total$INJURIES)
-event_cropdmg_ratio <- event_cropdmg_50_sum / event_cropdmg_total_sum
-print("ratio of injuries from top 50 / all event types:")
+# ratio of cropdmgities due to top 10 event types / all event types
+event_cropdmg_10_sum <- sum(event_cropdmg_10$CROPDMGTOT, na.rm=TRUE)
+event_cropdmg_total_sum <- sum(event_cropdmg_total$CROPDMGTOT, na.rm=TRUE)
+event_cropdmg_ratio <- event_cropdmg_10_sum / event_cropdmg_total_sum
+print("ratio of croperty damage from top 10 / all event types:")
 print(event_cropdmg_ratio)
 
-# note: based on results above, storm-related and heat have highest totals 
-# conclusion: calculate ratios for these events to create plots
-event_cropdmg_5 <- event_cropdmg_total[1:6,]
-event_cropdmg_5
+```
+
+### Part 3A: Plot Results
+### Question 1 - Plot Event Type by Impacts to Population Health
+
+Steps:
+
+Analysis:
+
+
+
+```{r echo=TRUE}
+
+# part 2b: data analysis - plot event types by property damage
+# http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization
+# https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
+# install.packages("ggplot2")
+# library(ggplot2)
+p_propdmg <- ggplot(data=event_propdmg_10, aes(x=reorder(EVTYPE, -PROPDMGTOT), y=PROPDMGTOT, fill=EVTYPE)) + geom_bar(stat="identity")
+p_propdmg + coord_flip()
+
+# part 2b: data analysis - plot event types by crop damage
+# http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization
+# https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
+# install.packages("ggplot2")
+# library(ggplot2)
+p_cropdmg <- ggplot(data=event_cropdmg_10, aes(x=reorder(EVTYPE, -CROPDMGTOT), y=CROPDMGTOT, fill=EVTYPE)) + geom_bar(stat="identity")
+p_cropdmg + coord_flip()
+
+p_arrange <- ggarrange(p_propdmg, p_cropdmg,
+                       labels=c("Property Damage", "Crop Damage"),
+                       ncol=2, nrow=2)
+p_arrange
 
 ```
