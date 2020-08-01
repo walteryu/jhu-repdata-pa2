@@ -472,9 +472,9 @@ p_propdmg + coord_flip()
 p_cropdmg <- ggplot(data=event_cropdmg_10, aes(x=reorder(EVTYPE, -CROPDMGTOT), y=CROPDMGTOT, fill=EVTYPE)) + geom_bar(stat="identity")
 p_cropdmg + coord_flip()
 
-p_arrange <- ggarrange(p_propdmg, p_cropdmg,
-                       labels=c("Property Damage", "Crop Damage"),
-                       ncol=2, nrow=2)
-p_arrange
+# p_arrange <- ggarrange(p_propdmg, p_cropdmg,
+#                        labels=c("Property Damage", "Crop Damage"),
+#                        ncol=2, nrow=2)
+# p_arrange
 
 ```
