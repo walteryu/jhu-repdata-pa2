@@ -2,6 +2,7 @@ data/
 docs/
 archive/
 modules/
+.Rhistory
 check_repo.sh
 instructions.md
 PA2_template.md
