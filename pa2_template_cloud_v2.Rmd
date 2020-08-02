@@ -123,19 +123,17 @@ data <- read.csv("data/repdata_data_StormData.csv.bz2")
 # source: https://www.statmethods.net/input/missingdata.html
 # data_omit <- na.omit(data)
 
-# verify results
+# review results
 # conclusion: na.omit removes most records, so not used on dataset
-# https://www.statmethods.net/stats/descriptives.html
-# head(data_omit)
+# source: https://www.statmethods.net/stats/descriptives.html
+# head(data_omit, n=5L)
 # names(data_omit)
 # summary(data_omit)
 
 # identify event types
-# conclusion: results show a large number of event types
+# source: https://www.statmethods.net/stats/descriptives.html
+# conclusion: results show a large number of event types, some duplicated
 # unique(data$EVTYPE)
-
-# todo: agrepl usage
-# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/XdHXZccTEemRWg4GTNs16g
 
 ```
 
@@ -145,12 +143,21 @@ data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
 Steps:
 
+1. Subset and analyze data for each question/relevant data
+2. For question 1, data subset/analyzed for fatalities/injuries 
+3. For question 2, data subset/analyzed for property/crop damage
+
 Analysis:
 
-1. There are 37 variables, only some of which are needed for analysis
+1. There are 37 variables and ~900k records, only some of which are needed for analysis
 2. NOAA documentation quantifies health impacts with fatailities/injuries 
-3. So, aggregate fatailities/injuries by event type
+3. As a result, aggregate fatailities/injuries by event type
 
+Observations:
+
+1. Aggregation showed that storm events with highest impacts make up large majority of impacts
+2. In addition, top 5-10 storm events made up good portion of population impacts 
+3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
 
@@ -170,6 +177,7 @@ event_fatal_50 <- event_fatal_total[1:50,]
 # event_fatal_50
 
 # ratio of fatalities due to top 50 event types / all event types
+# conclusion: top events make up large majority of impacts
 event_fatal_50_sum <- sum(event_fatal_50$FATALITIES)
 event_fatal_total_sum <- sum(event_fatal_total$FATALITIES)
 event_fatal_ratio <- event_fatal_50_sum / event_fatal_total_sum
@@ -189,7 +197,21 @@ event_fatal_8
 
 Steps:
 
+1. Subset and analyze data for each question/relevant data
+2. For question 1, data subset/analyzed for fatalities/injuries 
+3. For question 2, data subset/analyzed for property/crop damage
+
 Analysis:
+
+1. There are 37 variables and ~900k records, only some of which are needed for analysis
+2. NOAA documentation quantifies health impacts with fatailities/injuries 
+3. As a result, aggregate fatailities/injuries by event type
+
+Observations:
+
+1. Aggregation showed that storm events with highest impacts make up large majority of impacts
+2. In addition, top 5-10 storm events made up good portion of population impacts 
+3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
 
@@ -226,10 +248,24 @@ event_injury_6
 ### Part 3A: Plot Results
 ### Question 1 - Plot Event Type by Impacts to Population Health
 
-Steps:
+Overview:
 
-Analysis:
+1. Data processing produced subsets of aggregated, ranked data by population impact 
+2. Each subset was reviewed, then visualized with bar plots 
+3. Results show which events had the most impact on population health
+4. Since fatalities have a larger impact, then it was the factor used for results 
+5. Injury plot created but not presented; assignment limited to 3 plots total
 
+Steps: 
+
+1. Aggregated, subset data was ranked, then plot into bar plot 
+2. Plot is color coded by event type and axis labeled 
+
+Observations:
+
+1. Fatalities are assumed to have large impact than injuries alone 
+2. As a result, tornados had the largest impact followed by thunder storm winds, floods and high heat 
+3. Based on these results, storm-related events and heat had the largest impact to population health
 
 ```{r echo=TRUE}
 
@@ -238,30 +274,53 @@ Analysis:
 # https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
 # install.packages("ggplot2")
 # library(ggplot2)
-p_fatal <- ggplot(data=event_fatal_8, aes(x=reorder(EVTYPE, -FATALITIES), y=FATALITIES, fill=EVTYPE)) + geom_bar(stat="identity")
+p_fatal <- ggplot(data=event_fatal_8, aes(x=reorder(EVTYPE, -FATALITIES), y=FATALITIES, fill=EVTYPE)) + 
+    geom_bar(stat="identity") + 
+    labs(title="Total Fatality Count by Storm Event (All Years)", x="Total Fatality Count", y="Event Type")
 p_fatal + coord_flip()
 
+# part 3a: data processing - plot event types by injuries
 # http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization
 # https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
 # install.packages("ggplot2")
 # library(ggplot2)
-p_injury <- ggplot(data=event_injury_6, aes(x=reorder(EVTYPE, -INJURIES), y=INJURIES, fill=EVTYPE)) + geom_bar(stat="identity")
-p_injury + coord_flip()
+# p_injury <- ggplot(data=event_injury_6, aes(x=reorder(EVTYPE, -INJURIES), y=INJURIES, fill=EVTYPE)) + 
+#     geom_bar(stat="identity") + 
+#     labs(title="Total Injury Count by Storm Event (All Years)", x="Total Injury Count", y="Event Type")
+# p_injury + coord_flip()
 
 ```
 
 ## Part 2: Data Processing
+
+Overview:
+
+1. Property/crop data differs from fataility/injury due to total damage ($)
+2. Units are stored as exponents in the PROPDMGEXP and CROPDMGEXP variables
+3. As a result, conversions were made to total dollars prior to analysis
+
 ### Part 2C: Data Analysis
-### Question 2 - Analyze Event Type by Impacts to Crop Damage
+### Question 2 - Analyze Event Type by Impacts to Economic Consequences
 
 Steps:
+
+1. Subset and analyze data for each question/relevant data
+2. For question 1, data subset/analyzed for fatalities/injuries 
+3. For question 2, data subset/analyzed for property/crop damage
+4. For question 2, total damage was converted to total dollars 
+5. Once total damaged was converted, then it was aggregated/totaled
 
 Analysis:
 
 1. There are 37 variables, only some of which are needed for analysis
-2. NOAA documentation quantifies health impacts with fatailities/injuries 
-3. So, aggregate fatailities/injuries by event type
+2. NOAA documentation quantifies economic impacts with property/crop damage
+3. As a result, aggregate property/crop damage by event type
 
+Observations:
+
+1. Aggregation showed that storm events with highest impacts make up large majority of impacts
+2. In addition, top 5-10 storm events made up good portion of population impacts 
+3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
 
@@ -277,17 +336,37 @@ summary(data$CROPDMGEXP)
 ```
 
 ## Part 2: Data Processing
+
+Overview:
+
+1. Property/crop data differs from fataility/injury due to total damage ($)
+2. Units are stored as exponents in the PROPDMGEXP and CROPDMGEXP variables
+3. As a result, conversions were made to total dollars prior to analysis
+4. For question 2, total damage was converted to total dollars 
+5. Once total damaged was converted, then it was aggregated/totaled
+
 ### Part 2D: Data Analysis
-### Question 2 - Analyze Event Type by Impacts to Crop Damage
+### Question 2 - Analyze Event Type by Impacts to Economic Consequences
 
 Steps:
+
+1. Subset and analyze data for each question/relevant data
+2. For question 1, data subset/analyzed for fatalities/injuries 
+3. For question 2, data subset/analyzed for property/crop damage
+4. For question 2, total damage was converted to total dollars 
+5. Once total damaged was converted, then it was aggregated/totaled
 
 Analysis:
 
 1. There are 37 variables, only some of which are needed for analysis
-2. NOAA documentation quantifies health impacts with fatailities/injuries 
-3. So, aggregate fatailities/injuries by event type
+2. NOAA documentation quantifies economic impacts with property/crop damage
+3. As a result, aggregate property/crop damage by event type
 
+Observations:
+
+1. Aggregation showed that storm events with highest impacts make up large majority of impacts
+2. In addition, top 5-10 storm events made up good portion of population impacts 
+3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
 
@@ -388,8 +467,15 @@ print(event_propdmg_ratio)
 ```
 
 ## Part 2: Data Processing
+
+Overview:
+
+1. Property/crop data differs from fataility/injury due to total damage ($)
+2. Units are stored as exponents in the PROPDMGEXP and CROPDMGEXP variables
+3. As a result, conversions were made to total dollars prior to analysis
+
 ### Part 2E: Data Analysis
-### Question 2 - Analyze Event Type by Impacts to Crop Damage
+### Question 2 - Analyze Event Type by Impacts to Economic Consequences
 
 Steps:
 
@@ -399,6 +485,10 @@ Analysis:
 2. NOAA documentation quantifies health impacts with fatailities/injuries 
 3. So, aggregate fatailities/injuries by event type
 
+Observations:
+1. Aggregation showed that storm events with highest impacts make up large majority of impacts
+2. In addition, top 5-10 storm events made up good portion of population impacts 
+3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
 
@@ -470,12 +560,25 @@ print(event_cropdmg_ratio)
 
 ## Part 3: Results
 ### Part 3B: Plot Results
-### Question 2 - Plot Event Type by Crop Damage
+### Question 2 - Analyze Event Type by Impacts to Economic Consequences
 
-Steps:
+Overview:
 
-Analysis:
+1. Data processing produced subsets of aggregated, ranked data by population impact 
+2. Each subset was reviewed, then visualized with bar plots 
+3. Results show which events had the most impact on population health
+4. Since fatalities have a larger impact, then it was the factor used for results 
 
+Steps: 
+
+1. Aggregated, subset data was ranked, then plot into bar plot 
+2. Plot is color coded by event type and axis labeled 
+
+Observations:
+
+1. Fatalities are assumed to have large impact than injuries alone 
+2. As a result, tornados had the largest impact followed by thunder storm winds, floods and high heat 
+3. Based on these results, storm-related events and heat had the largest impact to population health
 
 ```{r echo=TRUE}
 
