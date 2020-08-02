@@ -7,13 +7,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Title: PA2 NOAA Storm Event Data Analysis
+## Title: PA2 NOAA Storm Event Data Analysis
 
-## Course: JHU-DSCI Reproducible Research
-## Peer Assessment 2: NOAA Storm Data
+### Course: JHU-DSCI Reproducible Research
+### Assignment: PA2 NOAA Storm Data
 
-### Name: Walter Yu
-### Date: July 2020
+Name: Walter Yu
+
+Date: July 2020
 
 ## Part 1: Synopsis
 
@@ -273,7 +274,7 @@ Observations:
 # http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization
 # https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
 # install.packages("ggplot2")
-# library(ggplot2)
+library(ggplot2)
 p_fatal <- ggplot(data=event_fatal_8, aes(x=reorder(EVTYPE, -FATALITIES), y=FATALITIES, fill=EVTYPE)) + 
     geom_bar(stat="identity") + 
     labs(title="Total Fatality Count by Storm Event (All Years)", x="Total Fatality Count", y="Event Type")
@@ -319,7 +320,7 @@ Analysis:
 Observations:
 
 1. Aggregation showed that storm events with highest impacts make up large majority of impacts
-2. In addition, top 5-10 storm events made up good portion of population impacts 
+2. In addition, top 5-10 storm events made up good portion of economic impacts 
 3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
@@ -365,7 +366,7 @@ Analysis:
 Observations:
 
 1. Aggregation showed that storm events with highest impacts make up large majority of impacts
-2. In addition, top 5-10 storm events made up good portion of population impacts 
+2. In addition, top 5-10 storm events made up good portion of economic impacts 
 3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
@@ -382,66 +383,66 @@ Observations:
 
 # note: please refer to cited code sources above
 prop_0e_subset <- subset(data, PROPDMGEXP == 1, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_0e_subset
+# prop_0e_subset
 prop_0e_subset$PROPDMGTOT <- with(prop_0e_subset, ifelse(PROPDMGEXP == 1, PROPDMG*0, "NA"))
-prop_0e_subset
+# prop_0e_subset
 
 # note: please refer to cited code sources above
 prop_1e_subset <- subset(data, PROPDMGEXP == 0, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_1e_subset
+# prop_1e_subset
 prop_1e_subset$PROPDMGTOT <- with(prop_1e_subset, ifelse(PROPDMGEXP == 0, PROPDMG*10, "NA"))
-prop_1e_subset
+# prop_1e_subset
 
 # note: please refer to cited code sources above
 prop_2e_subset <- subset(data, PROPDMGEXP == 2, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_2e_subset
+# prop_2e_subset
 prop_2e_subset$PROPDMGTOT <- with(prop_2e_subset, ifelse(PROPDMGEXP == 2, PROPDMG*10^2, "NA"))
-prop_2e_subset
+# prop_2e_subset
 
 # note: please refer to cited code sources above
 prop_3e_subset <- subset(data, PROPDMGEXP == 3 | PROPDMGEXP == "K", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_3e_subset
+# prop_3e_subset
 prop_3e_subset$PROPDMGTOT <- with(prop_3e_subset, ifelse(PROPDMGEXP == 3 | PROPDMGEXP == "K", PROPDMG*10^3, "NA"))
-prop_3e_subset
+# prop_3e_subset
 
 # note: please refer to cited code sources above
 prop_4e_subset <- subset(data, PROPDMGEXP == 4, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_4e_subset
+# prop_4e_subset
 prop_4e_subset$PROPDMGTOT <- with(prop_4e_subset, ifelse(PROPDMGEXP == 4, PROPDMG*10^4, "NA"))
-prop_4e_subset
+# prop_4e_subset
 
 # note: please refer to cited code sources above
 prop_5e_subset <- subset(data, PROPDMGEXP == 5, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_5e_subset
+# prop_5e_subset
 prop_5e_subset$PROPDMGTOT <- with(prop_5e_subset, ifelse(PROPDMGEXP == 5, PROPDMG*10^5, "NA"))
-prop_5e_subset
+# prop_5e_subset
 
 # note: please refer to cited code sources above
 prop_6e_subset <- subset(data, PROPDMGEXP == 6 | PROPDMGEXP == "M", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_6e_subset
+# prop_6e_subset
 prop_6e_subset$PROPDMGTOT <- with(prop_6e_subset, ifelse(PROPDMGEXP == 6 | PROPDMGEXP == "M", PROPDMG*10^6, "NA"))
-prop_6e_subset
+# prop_6e_subset
 
 # note: please refer to cited code sources above
 prop_7e_subset <- subset(data, PROPDMGEXP == 7, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_7e_subset
+# prop_7e_subset
 prop_7e_subset$PROPDMGTOT <- with(prop_7e_subset, ifelse(PROPDMGEXP == 7, PROPDMG*10^7, "NA"))
-prop_7e_subset
+# prop_7e_subset
 
 # note: please refer to cited code sources above
 prop_8e_subset <- subset(data, PROPDMGEXP == 8, select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_8e_subset
+# prop_8e_subset
 prop_8e_subset$PROPDMGTOT <- with(prop_8e_subset, ifelse(PROPDMGEXP == 8, PROPDMG*10^8, "NA"))
-prop_8e_subset
+# prop_8e_subset
 
 # note: please refer to cited code sources above
 prop_9e_subset <- subset(data, PROPDMGEXP == "B", select = c(EVTYPE, PROPDMG, PROPDMGEXP))
-prop_9e_subset
+# prop_9e_subset
 prop_9e_subset$PROPDMGTOT <- with(prop_9e_subset, ifelse(PROPDMGEXP == "B", PROPDMG*10^9, "NA"))
-prop_9e_subset
+# prop_9e_subset
 
 propdmgtot_subset <- rbind(prop_0e_subset, prop_1e_subset, prop_2e_subset, prop_3e_subset, prop_4e_subset, prop_5e_subset, prop_6e_subset, prop_7e_subset, prop_8e_subset, prop_9e_subset)
-propdmgtot_subset
+# propdmgtot_subset
 
 # aggregate by cropdmg or propdmg, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
@@ -473,21 +474,30 @@ Overview:
 1. Property/crop data differs from fataility/injury due to total damage ($)
 2. Units are stored as exponents in the PROPDMGEXP and CROPDMGEXP variables
 3. As a result, conversions were made to total dollars prior to analysis
+4. For question 2, total damage was converted to total dollars 
+5. Once total damaged was converted, then it was aggregated/totaled
 
 ### Part 2E: Data Analysis
 ### Question 2 - Analyze Event Type by Impacts to Economic Consequences
 
 Steps:
 
+1. Subset and analyze data for each question/relevant data
+2. For question 1, data subset/analyzed for fatalities/injuries 
+3. For question 2, data subset/analyzed for property/crop damage
+4. For question 2, total damage was converted to total dollars 
+5. Once total damaged was converted, then it was aggregated/totaled
+
 Analysis:
 
 1. There are 37 variables, only some of which are needed for analysis
-2. NOAA documentation quantifies health impacts with fatailities/injuries 
-3. So, aggregate fatailities/injuries by event type
+2. NOAA documentation quantifies economic impacts with property/crop damage
+3. As a result, aggregate property/crop damage by event type
 
 Observations:
+
 1. Aggregation showed that storm events with highest impacts make up large majority of impacts
-2. In addition, top 5-10 storm events made up good portion of population impacts 
+2. In addition, top 5-10 storm events made up good portion of economic impacts 
 3. As a result, those events were used to develop results
 
 ```{r echo=TRUE}
@@ -504,36 +514,36 @@ Observations:
 
 # note: please refer to cited code sources above
 crop_1e_subset <- subset(data, CROPDMGEXP == 0, select = c(EVTYPE, CROPDMG, CROPDMGEXP))
-crop_1e_subset
+# crop_1e_subset
 crop_1e_subset$CROPDMGTOT <- with(crop_1e_subset, ifelse(CROPDMGEXP == 0, CROPDMG*10, "NA"))
-crop_1e_subset
+# crop_1e_subset
 
 # note: please refer to cited code sources above
 crop_2e_subset <- subset(data, CROPDMGEXP == 2, select = c(EVTYPE, CROPDMG, CROPDMGEXP))
-crop_2e_subset
+# crop_2e_subset
 crop_2e_subset$CROPDMGTOT <- with(crop_2e_subset, ifelse(CROPDMGEXP == 2, CROPDMG*10^2, "NA"))
-crop_2e_subset
+# crop_2e_subset
 
 # note: please refer to cited code sources above
 crop_3e_subset <- subset(data, CROPDMGEXP == "k" | CROPDMGEXP == "K", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
-crop_3e_subset
+# crop_3e_subset
 crop_3e_subset$CROPDMGTOT <- with(crop_3e_subset, ifelse(CROPDMGEXP == "k" | CROPDMGEXP == "K", CROPDMG*10^3, "NA"))
-crop_3e_subset
+# crop_3e_subset
 
 # note: please refer to cited code sources above
 crop_6e_subset <- subset(data, CROPDMGEXP == "m" | CROPDMGEXP == "M", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
-crop_6e_subset
+# crop_6e_subset
 crop_6e_subset$CROPDMGTOT <- with(crop_6e_subset, ifelse(CROPDMGEXP == "m" | CROPDMGEXP == "M", CROPDMG*10^6, "NA"))
-crop_6e_subset
+# crop_6e_subset
 
 # note: please refer to cited code sources above
 crop_9e_subset <- subset(data, CROPDMGEXP == "B", select = c(EVTYPE, CROPDMG, CROPDMGEXP))
-crop_9e_subset
+# crop_9e_subset
 crop_9e_subset$CROPDMGTOT <- with(crop_9e_subset, ifelse(CROPDMGEXP == "B", CROPDMG*10^9, "NA"))
-crop_9e_subset
+# crop_9e_subset
 
 cropdmgtot_subset <- rbind(crop_1e_subset, crop_2e_subset, crop_3e_subset, crop_6e_subset, crop_9e_subset)
-cropdmgtot_subset
+# cropdmgtot_subset
 
 # aggregate by cropdmg or cropdmg, then apply calculations
 # source: https://www.statmethods.net/management/aggregate.html
@@ -564,10 +574,11 @@ print(event_cropdmg_ratio)
 
 Overview:
 
-1. Data processing produced subsets of aggregated, ranked data by population impact 
+1. Data processing produced subsets of aggregated, ranked data by economic impact 
 2. Each subset was reviewed, then visualized with bar plots 
-3. Results show which events had the most impact on population health
-4. Since fatalities have a larger impact, then it was the factor used for results 
+3. Results show which events had the most impact on economic consequences
+4. Both property and crop damage are visualized for comparison 
+5. Based on results, flood and drought have largest economic impact
 
 Steps: 
 
@@ -576,9 +587,9 @@ Steps:
 
 Observations:
 
-1. Fatalities are assumed to have large impact than injuries alone 
-2. As a result, tornados had the largest impact followed by thunder storm winds, floods and high heat 
-3. Based on these results, storm-related events and heat had the largest impact to population health
+1. Property and crop damage compared for total economic impact
+2. As a result, flood/drought had the largest impact 
+3. Based on results, flood and drought have largest economic impact
 
 ```{r echo=TRUE}
 
