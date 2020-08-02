@@ -7,7 +7,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Title: JHU-DSCI Reproducible Research
+# Title: PA2 NOAA Storm Event Data Analysis
+
+## Course: JHU-DSCI Reproducible Research
 ## Peer Assessment 2: NOAA Storm Data
 
 ### Name: Walter Yu
@@ -15,31 +17,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Part 1: Synopsis
 
-This document completes an initial analysis of the NOAA Storm Data set as follows: 
+This document is a reproducible analysis of the NOAA Storm Data set as follows: 
 
 1. Download and read the raw NOAA storm dataset 
-2. Review and clean data before analysis 
+2. Review and process data before analysis 
 3. Analyze data to answer assignment questions 
 4. Plot data to communicate results 
 5. Document steps and findings to be reproducible
+6. Assignment is organized into data processing, analysis and results
+7. Each section is further organized by step or question being answered
 
 ### Submission Notes
 
-1. This markdown file is an analysis and visualization of the NOAA weather dataset. Source data available [here][1].
+1. This markdown file is an analysis and visualization of the NOAA weather dataset. Source data available [here][1a_noaa].
 
-[1]: https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2
+[1a_noaa]: https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2
 
-2. The document for this assignment was generated with [R Studio Cloud][2] due to package installation errors on my local machine; as a result, file was run and report rendered there instead.
+2. This markdown project template is based on a fork of the course assignment Github repo available [here][1a_github].
 
-[2]: https://rstudio.cloud
+[1a_github]: https://github.com/rdpeng/RepData_PeerAssessment1
 
-This markdown project template is based on a fork of the course assignment Github repo available [here][3].
+3. This assignment is completed for the JHU Coursera Data Science Program, which is a 10-course certification. More info about this program is available [here][1a_jhu].
 
-[3]: https://github.com/rdpeng/RepData_PeerAssessment1
+[1a_jhu]: https://www.coursera.org/specializations/jhu-data-science
 
-This assignment is completed for the JHU Coursera Data Science Program, which is a 10-course certification. More info about this program is available [here][4].
+4. All links and code sources referenced for this assignment are cited within each section so please refer to them accordingly.
 
-[4]: https://www.coursera.org/specializations/jhu-data-science
+5. Assignment was initially generated with [R Studio Cloud][1a_cloud] due to package installation errors on my local machine; as a result, file was run and report rendered there instead.
+
+[1a_cloud]: https://rstudio.cloud
 
 ### Assignment Questions
 
@@ -48,29 +54,48 @@ This assignment is completed for the JHU Coursera Data Science Program, which is
 2. Across the United States, which types of events have the greatest economic consequences?
 
 ## Part 2: Data Processing
+
+Overview: 
+
+1. Raw CSV data was read in from zip file
+2. Data was reviewed and processed prior to analysis
+3. Data was subset and aggregated during analysis 
+
+Notes:
+
+1. Data processing is a large part of this assignment, so additional effort was made prior to analysis 
+2. The course discussion forum was reviewed, and this [post][2a_forum] was referenced for approach 
+3. In general, duplicate event types/records and total damage calculations needed to be addressed
+
+[2a_forum]: https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
+
 ### Part 2A: Data Import
 ### Question 1 - Analyze Event Type by Impacts to Population Health
 
 Steps:
 
 1. Initially attempted to load data from url
-2. However, attempts resulted in error so loaded from bz2 zipfile instead
-3. From there, file was unzipped and read into program
-4. Data import step is saved as its own chunk and [cached][1a_cache]
+2. However, attempts resulted in error so loaded from csv.bz2 zip file instead
+3. As a result, zip file was downloaded and read into program
+4. Data import step is saved as its own chunk and [cached][2a_cache]
 
-[1a_cache]: https://bookdown.org/yihui/rmarkdown-cookbook/cache.html
+[2a_cache]: https://bookdown.org/yihui/rmarkdown-cookbook/cache.html
 
 Analysis:
-1. Used na.omit function to remove null values
-2. However, na.omit removed most values do not used on dataset
 
+1. Initially used na.omit function to remove null values
+2. However, na.omit removed most values do not used on dataset
+3. As a result, data processing completed in following sections
 
 ```{r echo=TRUE}
 
-# part 2a: data import - data import read from csv.bz2 format
+# part 2a: data import - read from csv.bz2 format
 
+# note: course discussion forum consulted for these steps:
+# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
+
+# note: read url unsuccessful after several attempts, so revert to reading from bz2 file
 # source: https://rpubs.com/otienodominic/398952
-# note: unsuccessful after several attempts, so revert to reading from bz2 file
 # url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
 # temp <- tempfile()
 # download.file(url, temp, mode="wb")
@@ -87,13 +112,10 @@ data <- read.csv("data/repdata_data_StormData.csv.bz2")
 
 # part 2a: data import - review data
 
-# note: course discussion forum consulted for these steps:
-# https://www.coursera.org/learn/reproducible-research/discussions/weeks/4/threads/38y35MMiEeiERhLphT2-QA
-
 # review dataset
 # conclusion: dataset contains many columns, only some of which seem to be useful
 # https://www.statmethods.net/stats/descriptives.html
-# head(data)
+# head(data, n=5L)
 # names(data)
 # summary(data)
 
