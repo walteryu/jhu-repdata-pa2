@@ -587,19 +587,18 @@ Observations:
 # https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
 # install.packages("ggplot2")
 # library(ggplot2)
-p_propdmg <- ggplot(data=event_propdmg_10, aes(x=reorder(EVTYPE, -PROPDMGTOT), y=PROPDMGTOT, fill=EVTYPE)) + geom_bar(stat="identity")
+p_propdmg <- ggplot(data=event_propdmg_10, aes(x=reorder(EVTYPE, -PROPDMGTOT), y=PROPDMGTOT, fill=EVTYPE)) + 
+    geom_bar(stat="identity") +
+    labs(title="Total Property Damage by Storm Event (All Years)", x="Total Damage ($)", y="Event Type")
 p_propdmg + coord_flip()
 
 # http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization
 # https://stackoverflow.com/questions/16961921/plot-data-in-descending-order-as-appears-in-data-frame
 # install.packages("ggplot2")
 # library(ggplot2)
-p_cropdmg <- ggplot(data=event_cropdmg_10, aes(x=reorder(EVTYPE, -CROPDMGTOT), y=CROPDMGTOT, fill=EVTYPE)) + geom_bar(stat="identity")
+p_cropdmg <- ggplot(data=event_cropdmg_10, aes(x=reorder(EVTYPE, -CROPDMGTOT), y=CROPDMGTOT, fill=EVTYPE)) + 
+    geom_bar(stat="identity") + 
+    labs(title="Total Crop Damage by Storm Event (All Years)", x="Total Damage ($)", y="Event Type")
 p_cropdmg + coord_flip()
-
-# p_arrange <- ggarrange(p_propdmg, p_cropdmg,
-#                        labels=c("Property Damage", "Crop Damage"),
-#                        ncol=2, nrow=2)
-# p_arrange
 
 ```
